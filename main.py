@@ -13,6 +13,16 @@ loja2 = pd.read_csv(url2)
 loja3 = pd.read_csv(url3)
 loja4 = pd.read_csv(url4)
 
+def produto_mais_vendido(df, nome_loja):
+    contagem = df["Produto"].value_counts()
+    produtoMax = contagem.idxmax()
+    quantidadeMax = contagem.max()
+    produtoMin = contagem.idxmin()
+    quantidadeMin = contagem.min()
+    produtosMaxMin = ((produtoMax,produtoMin),(quantidadeMax,quantidadeMin))
+    # print(f"{nome_loja} - Mais vendido: {produtoMax} ({quantidadeMax} vendas) Menos vendido: {produtoMin} ({quantidadeMin} vendas)")
+    return produtosMaxMin
+
 Lojas = ['Loja 1','Loja 2','Loja 3','Loja 4']
 
 
@@ -112,11 +122,18 @@ for i, val in enumerate(avaliacoes):
 
 #Quantidade de Vendas por Loja
 
-Vendas = (len(loja),len(loja2),len(loja3),len(loja4))
+maisVendido1 = produto_mais_vendido(loja, "Loja 1")
+maisVendido2 = produto_mais_vendido(loja2, "Loja 2")
+maisVendido3 = produto_mais_vendido(loja3, "Loja 3")
+maisVendido4 = produto_mais_vendido(loja4, "Loja 4")
 
 plt.subplot(2, 3, 4)
-plt.pie(Vendas, labels=Lojas, autopct='%1.1f%%', startangle=90)
-plt.title('Quantidade de Vendas por Loja')
+plt.text(1,1,f'{maisVendido1}')
+# print(maisVendido)
+
+# plt.subplot(2, 3, 4)
+# plt.pie(maisVendido, labels=Lojas, autopct='%1.1f%%', startangle=90)
+# plt.title('Quantidade de Vendas por Loja')
 
 #Média de Valor da Venda
 Media1 = loja["Preço"].mean()
@@ -124,10 +141,27 @@ Media2 = loja2["Preço"].mean()
 Media3 = loja3["Preço"].mean()
 Media4 = loja4["Preço"].mean()
 
-print(round(Media1))
+Medias = (Media1 , Media2 , Media3 , Media4)
 
+plt.subplot(2,3,5)
+barrasMedias = plt.bar(Lojas, Medias, color = 'skyblue')
+plt.bar_label(barrasMedias, fmt='R$ %.0f', padding=2, fontsize=10)
+plt.ylim(min(Medias) * 0.95, max(Medias) * 1.05)
+plt.title('Valor Médio por Venda')
 
 #Média de Valor de Frete
+Frete1 = loja["Frete"].mean()
+Frete2 = loja2["Frete"].mean()
+Frete3 = loja3["Frete"].mean()
+Frete4 = loja4["Frete"].mean()
+
+Fretes = (Frete1 , Frete2 , Frete3 , Frete4)
+
+plt.subplot(2,3,6)
+barrasFretes = plt.bar(Lojas, Fretes, color = 'skyblue')
+plt.bar_label(barrasFretes, fmt='R$ %.0f', padding=2, fontsize=10)
+plt.ylim(min(Fretes) * 0.95, max(Fretes) * 1.05)
+plt.title('Valor Frete em Média')
 
 
 plt.tight_layout()  # Ajusta para não sobrepor títulos/labels
