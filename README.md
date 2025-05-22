@@ -43,4 +43,6 @@ Também é possível observar que, embora o valor médio de frete dessa loja sej
 Minha recomendação para o Senhor João é **vender a unidade 4**, que apresenta os menores índices de desempenho.  
 No entanto, considerando a avaliação dos clientes, **com investimentos e melhorias, essa loja ainda pode ter potencial para apresentar melhores resultados**.
 
+![Dashboard_Alura_Store](https://github.com/user-attachments/assets/9b88df6f-6806-4014-bbe0-bfc95c756e67)
+
 ---
