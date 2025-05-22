@@ -1,12 +1,12 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-import plotly.express as px
 
-url = "C:/Users/rannygf/Desktop/Challenge Alura Store/base-de-dados-challenge-1/loja_1.csv"
-url2 = "C:/Users/rannygf/Desktop/Challenge Alura Store/base-de-dados-challenge-1/loja_2.csv"
-url3 = "C:/Users/rannygf/Desktop/Challenge Alura Store/base-de-dados-challenge-1/loja_3.csv"
-url4 = "C:/Users/rannygf/Desktop/Challenge Alura Store/base-de-dados-challenge-1/loja_4.csv"
+url = "https://raw.githubusercontent.com/alura-es-cursos/challenge1-data-science/refs/heads/main/base-de-dados-challenge-1/loja_1.csv"
+url2 = "https://raw.githubusercontent.com/alura-es-cursos/challenge1-data-science/refs/heads/main/base-de-dados-challenge-1/loja_2.csv"
+url3 = "https://raw.githubusercontent.com/alura-es-cursos/challenge1-data-science/refs/heads/main/base-de-dados-challenge-1/loja_3.csv"
+url4 = "https://raw.githubusercontent.com/alura-es-cursos/challenge1-data-science/refs/heads/main/base-de-dados-challenge-1/loja_4.csv"
+
 
 loja = pd.read_csv(url)
 loja2 = pd.read_csv(url2)
@@ -20,26 +20,25 @@ def produto_mais_vendido(df, nome_loja):
     produtoMin = contagem.idxmin()
     quantidadeMin = contagem.min()
     produtosMaxMin = ((produtoMax,produtoMin),(quantidadeMax,quantidadeMin))
-    # print(f"{nome_loja} - Mais vendido: {produtoMax} ({quantidadeMax} vendas) Menos vendido: {produtoMin} ({quantidadeMin} vendas)")
     return produtosMaxMin
 
 Lojas = ['Loja 1','Loja 2','Loja 3','Loja 4']
 
 
-# Cria a figura
+
 fig = plt.figure(figsize=(18, 9))
 fig.canvas.manager.set_window_title("Dashboard Alura Store")
 plt.suptitle("Análise Alura Store", fontsize=18, fontweight='bold')
 
-# Maximiza a janela
+
 manager = plt.get_current_fig_manager()
 try:
-    manager.window.state('zoomed')  # Funciona no TkAgg (Windows)
+    manager.window.state('zoomed')
 except:
     try:
-        manager.window.showMaximized()  # Funciona no Qt5Agg
+        manager.window.showMaximized()
     except:
-        pass  # Se não funcionar, ignora
+        pass
 
 #Faturamento
 
@@ -56,8 +55,8 @@ barras = plt.bar(Lojas, Faturamento, color='skyblue')
 for barra in barras:
     valor = int(barra.get_height())
     plt.text(barra.get_x() + barra.get_width() / 2,
-             barra.get_height() + 10000,  # Pequeno deslocamento acima da barra
-             f'{valor:,}'.replace(',', '.'),  # Formato brasileiro com ponto
+             barra.get_height() + 10000,  # Espaço em cima da barra
+             f'{valor:,}'.replace(',', '.'),  # Formato R$ brasileiro
              ha='center', va='bottom', fontsize=10)
 
 plt.ylim(min(Faturamento) * 0.95, max(Faturamento) * 1.05)
@@ -128,26 +127,49 @@ maisVendido3 = produto_mais_vendido(loja3, "Loja 3")
 maisVendido4 = produto_mais_vendido(loja4, "Loja 4")
 
 plt.subplot(2, 3, 4)
-plt.text(1,1,f'{maisVendido1}')
-# print(maisVendido)
+plt.title('Produtos Campeões de Vendas')
+plt.text(
+    0.5, 0.9,
+    f"Loja 1:",
+    ha='center', va='center', fontsize=10, wrap=True, fontweight = 'bold' 
+)
+plt.text(
+    0.5, 0.8,
+    f"Mais vendido: {maisVendido1[0][0]} ({maisVendido1[1][0]} unidades)\n Menos vendido: {maisVendido1[0][1]} ({maisVendido1[1][1]} unidades).",
+    ha='center', va='center', fontsize=10, wrap=True
+)
+plt.text(
+    0.5, 0.7,
+    f"Loja 2:",
+    ha='center', va='center', fontsize=10, wrap=True, fontweight = 'bold' 
+)
+plt.text(
+    0.5, 0.6,
+    f"Mais vendido: {maisVendido2[0][0]} ({maisVendido2[1][0]} unidades)\n Menos vendido: {maisVendido2[0][1]} ({maisVendido2[1][1]} unidades).",
+    ha='center', va='center', fontsize=10, wrap=True
+)
+plt.text(
+    0.5, 0.5,
+    f"Loja 3:",
+    ha='center', va='center', fontsize=10, wrap=True, fontweight = 'bold' 
+)
+plt.text(
+    0.5, 0.4,
+    f"Mais vendido: {maisVendido3[0][0]} ({maisVendido3[1][0]} unidades)\n Menos vendido: {maisVendido3[0][1]} ({maisVendido3[1][1]} unidades).",
+    ha='center', va='center', fontsize=10, wrap=True
+)
+plt.text(
+    0.5, 0.3,
+    f"Loja 4:",
+    ha='center', va='center', fontsize=10, wrap=True, fontweight = 'bold' 
+)
+plt.text(
+    0.5, 0.2,
+    f"Mais vendido: {maisVendido4[0][0]} ({maisVendido4[1][0]} unidades)\n Menos vendido: {maisVendido4[0][1]} ({maisVendido4[1][1]} unidades).",
+    ha='center', va='center', fontsize=10, wrap=True
+)
+plt.axis('off')  # Oculta os eixos que ficam nas laterais
 
-# plt.subplot(2, 3, 4)
-# plt.pie(maisVendido, labels=Lojas, autopct='%1.1f%%', startangle=90)
-# plt.title('Quantidade de Vendas por Loja')
-
-#Média de Valor da Venda
-Media1 = loja["Preço"].mean()
-Media2 = loja2["Preço"].mean()
-Media3 = loja3["Preço"].mean()
-Media4 = loja4["Preço"].mean()
-
-Medias = (Media1 , Media2 , Media3 , Media4)
-
-plt.subplot(2,3,5)
-barrasMedias = plt.bar(Lojas, Medias, color = 'skyblue')
-plt.bar_label(barrasMedias, fmt='R$ %.0f', padding=2, fontsize=10)
-plt.ylim(min(Medias) * 0.95, max(Medias) * 1.05)
-plt.title('Valor Médio por Venda')
 
 #Média de Valor de Frete
 Frete1 = loja["Frete"].mean()
@@ -157,13 +179,27 @@ Frete4 = loja4["Frete"].mean()
 
 Fretes = (Frete1 , Frete2 , Frete3 , Frete4)
 
-plt.subplot(2,3,6)
+plt.subplot(2,3,5)
 barrasFretes = plt.bar(Lojas, Fretes, color = 'skyblue')
 plt.bar_label(barrasFretes, fmt='R$ %.0f', padding=2, fontsize=10)
 plt.ylim(min(Fretes) * 0.95, max(Fretes) * 1.05)
 plt.title('Valor Frete em Média')
 
 
-plt.tight_layout()  # Ajusta para não sobrepor títulos/labels
+#Média de Valor da Venda
+Media1 = loja["Preço"].mean()
+Media2 = loja2["Preço"].mean()
+Media3 = loja3["Preço"].mean()
+Media4 = loja4["Preço"].mean()
+
+Medias = (Media1 , Media2 , Media3 , Media4)
+
+plt.subplot(2,3,6)
+barrasMedias = plt.bar(Lojas, Medias, color = 'skyblue')
+plt.bar_label(barrasMedias, fmt='R$ %.0f', padding=2, fontsize=10)
+plt.ylim(min(Medias) * 0.95, max(Medias) * 1.05)
+plt.title('Valor Médio por Venda')
+
+plt.tight_layout()  # Ajusta para não sobrepor os textos
 
 plt.show()
