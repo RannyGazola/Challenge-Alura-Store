@@ -55,15 +55,15 @@ barras = plt.bar(Lojas, Faturamento, color='skyblue')
 for barra in barras:
     valor = int(barra.get_height())
     plt.text(barra.get_x() + barra.get_width() / 2,
-             barra.get_height() + 10000,  # Espaço em cima da barra
-             f'{valor:,}'.replace(',', '.'),  # Formato R$ brasileiro
+             barra.get_height() + 10000,
+             f'{valor:,}'.replace(',', '.'),
              ha='center', va='bottom', fontsize=10)
 
 plt.ylim(min(Faturamento) * 0.95, max(Faturamento) * 1.05)
 plt.title('Faturamento das Lojas')
 plt.ylabel('Faturamento (R$)')
 
-# # Vendas por Categoria
+# Vendas por Categoria
 
 cat1 = loja.groupby("Categoria do Produto")["Preço"].sum()
 cat2 = loja2.groupby("Categoria do Produto")["Preço"].sum()
@@ -168,7 +168,7 @@ plt.text(
     f"Mais vendido: {maisVendido4[0][0]} ({maisVendido4[1][0]} unidades)\n Menos vendido: {maisVendido4[0][1]} ({maisVendido4[1][1]} unidades).",
     ha='center', va='center', fontsize=10, wrap=True
 )
-plt.axis('off')  # Oculta os eixos que ficam nas laterais
+plt.axis('off')
 
 
 #Média de Valor de Frete
@@ -200,6 +200,6 @@ plt.bar_label(barrasMedias, fmt='R$ %.0f', padding=2, fontsize=10)
 plt.ylim(min(Medias) * 0.95, max(Medias) * 1.05)
 plt.title('Valor Médio por Venda')
 
-plt.tight_layout()  # Ajusta para não sobrepor os textos
+plt.tight_layout()
 
 plt.show()
